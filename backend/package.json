@@ -1,0 +1,23 @@
+{
+  "name": "k121-back",
+  "version": "1.0.0",
+  "description": "Back-end do sistema de amigo secreto.",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha .\\tests\\ --recursive --watch"
+  },
+  "author": "Herycklys",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "mongoose": "^4.13.7",
+    "mongoose-paginate": "^5.0.3",
+    "restify": "^6.3.4",
+    "restify-errors": "^5.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "rewire": "^3.0.2",
+    "sinon": "^4.1.3"
+  }
+}
