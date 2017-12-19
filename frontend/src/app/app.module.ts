@@ -1,20 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FriendsListComponent } from './friends-list/friends-list.component';
-import { SortFriendDirective } from './sort-friend.directive';
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    FriendsListComponent,
-    SortFriendDirective
+    FriendsListComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
