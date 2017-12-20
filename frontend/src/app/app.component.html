@@ -15,9 +15,11 @@
         </div>
       </div>
       <div class="padd-20px text-center">
-        <img *ngIf="showSpin" src="/assets/spinner.gif">
+        <ng-template [ngIf]="_spinner">
+          <img src="/assets/spinner.gif">
+        </ng-template>
 
-        <app-friends-list (spinner)="toggleSpinner($event)" *ngIf="!showSpin"></app-friends-list>
+        <app-friends-list [spinner]="toggleSpinner" *ngIf="!_spinner"></app-friends-list>
       </div>
     </div>
   </div>

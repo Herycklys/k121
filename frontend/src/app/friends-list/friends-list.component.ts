@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ApiRestService } from '../api-rest.service';
 import { Friend } from '../friend';
 import { ModalDataFriendComponent } from '../modal-data-friend/modal-data-friend.component';
@@ -22,7 +22,7 @@ export class FriendsListComponent implements OnInit {
   @ViewChild(ModalDataFriendComponent)
   private ModalFriend: ModalDataFriendComponent;
 
-  @Output() spinner:EventEmitter<Boolean> = new EventEmitter();
+  @Input() spinner: Function;
 
   constructor(private api: ApiRestService) { }
 
@@ -54,18 +54,14 @@ export class FriendsListComponent implements OnInit {
   }
 
   deleteFriend(id: String) {
-    this.spinner.emit(true);
-    this.spinner.emit(false);
+    this.spinner(true);
 
-    setTimeout(() => {
-      console.log('CALL AGAIN');
-
-      this.spinner.emit(true);
-    }, 2000);
-
-    // this.spinner.emit(false);
-    /* this.api.remove(id).then(() => {
+    this.api.remove(id).then(() => {
       this.loadData();
-    }); */
+
+      this.spinner(false);
+    }).catch(e => {
+      this.spinner(false);
+    });
   }
 }

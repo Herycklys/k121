@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  showSpin: Boolean = false;
+  _spinner: Boolean = true;
 
-  toggleSpinner(showSpin) {
-    alert('HERE');
+  toggleSpinner(spinner: Boolean) {
+    alert(JSON.stringify({ spinner, _spinner: this._spinner }));
 
-    this.showSpin = showSpin;
+    this._spinner = spinner;
   }
 
   makeSort() {
