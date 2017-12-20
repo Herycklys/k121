@@ -37,4 +37,4 @@ server.post('/friends/sort', controller.postSort);
 server.put(/\/friends\/([0-9a-fA-F]{24})/, controller.put);
 server.del(/\/friends\/([0-9a-fA-F]{24})/, controller.delete);
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
