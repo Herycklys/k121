@@ -4,7 +4,8 @@
   "description": "Back-end do sistema de amigo secreto.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha .\\tests\\ --recursive --watch"
+    "test": "mocha .\\tests\\ --recursive --watch",
+    "start": "node app.js"
   },
   "author": "Herycklys",
   "license": "ISC",
