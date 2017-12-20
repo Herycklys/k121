@@ -9,6 +9,8 @@ export class AppComponent {
   showSpin: Boolean = false;
 
   toggleSpinner(showSpin) {
+    alert('HERE');
+
     this.showSpin = showSpin;
   }
 

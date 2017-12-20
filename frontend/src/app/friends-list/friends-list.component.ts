@@ -12,11 +12,11 @@ import { ModalDataFriendComponent } from '../modal-data-friend/modal-data-friend
 export class FriendsListComponent implements OnInit {
   friends: Array<Friend> = [];
 
-  friend_selected = {
+  friend_selected: any = {
     title: '',
-    _id: '',
-    nome: '',
-    email: ''
+    _id: String,
+    nome: String,
+    email: String
   };
 
   @ViewChild(ModalDataFriendComponent)
@@ -26,7 +26,7 @@ export class FriendsListComponent implements OnInit {
 
   constructor(private api: ApiRestService) { }
 
-  loadData(): void{
+  loadData(): void {
     this.api.list().then(result => {
       this.friends = result.data;
     });
@@ -37,9 +37,12 @@ export class FriendsListComponent implements OnInit {
   }
 
   editFriend(friend: Friend): void {
-    this.friend_selected = Object.assign({}, friend);
-
-    this.friend_selected.title = `Editar o amigo ${ friend.nome }`;
+    this.friend_selected = {
+      title: `Editar o amigo ${ friend.nome }`,
+      _id: friend._id,
+      nome: friend.nome,
+      email: friend.email
+    };
     
     this.ModalFriend.modalToggle();
   }
@@ -51,11 +54,16 @@ export class FriendsListComponent implements OnInit {
   }
 
   deleteFriend(id: String) {
-    alert('HERE');
-
     this.spinner.emit(true);
-
     this.spinner.emit(false);
+
+    setTimeout(() => {
+      console.log('CALL AGAIN');
+
+      this.spinner.emit(true);
+    }, 2000);
+
+    // this.spinner.emit(false);
     /* this.api.remove(id).then(() => {
       this.loadData();
     }); */

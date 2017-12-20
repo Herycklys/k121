@@ -7,14 +7,14 @@ export class ApiRestService {
   constructor(private http: Http) {}
 
   list() {
-    return this.http.get('http://localhost:3000/friends').toPromise().then(result => result.json());
+    return this.http.get('https://api-k121.herokuapp.com/friends').toPromise().then(result => result.json());
   }
 
   remove(id: String) {
-    return this.http.delete(`http://localhost:3000/friends/${ id }`).toPromise();
+    return this.http.delete(`https://api-k121.herokuapp.com/friends/${ id }`).toPromise();
   }
 
   sortFriends() {
-    return this.http.post('http://localhost:3000/friends/sort', {}).toPromise();
+    return this.http.post('https://api-k121.herokuapp.com/friends/sort', {}).toPromise().then(result => result.json());
   }
 }
