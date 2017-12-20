@@ -17,13 +17,23 @@ const server = restify.createServer({
   version: '1.0.0'
 });
 
+server.use((req, res, next) => {
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': req.header('Access-Control-Request-Method'),
+    'Access-Control-Allow-Header': req.header('Access-Control-Request-Headers')
+  });
+
+  return next();
+});
+
 server.use(restify.plugins.bodyParser({ mapParams: true }));
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser({ mapParams: true }));
-server.use(restify.plugins.fullResponse());
 
 server.get('/friends', controller.get);
 server.post('/friends', controller.post);
+server.post('/friends/sort', controller.postSort);
 server.put(/\/friends\/([0-9a-fA-F]{24})/, controller.put);
 server.del(/\/friends\/([0-9a-fA-F]{24})/, controller.delete);
 

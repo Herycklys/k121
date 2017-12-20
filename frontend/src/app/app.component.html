@@ -5,13 +5,19 @@
     </div>
     <div class="card-body padd-20px">
       <div class="row">
-        <button class="btn btn-info padd-20px margin-auto">
-          <b>Sortear os amigos</b>
-        </button>
+        <div class="margin-auto">
+          <button class="btn btn-info">
+            <b>Sortear os amigos</b>
+          </button>
+          <button class="btn btn-success" (click)="openModal()">
+            <b>Cadastrar novo amigo</b>
+          </button>
+        </div>
       </div>
-      
-      <div class="padd-20px">
-        <app-friends-list></app-friends-list>
+      <div class="padd-20px text-center">
+        <img *ngIf="showSpin" src="/assets/spinner.gif">
+
+        <app-friends-list (spinner)="toggleSpinner($event)" *ngIf="!showSpin"></app-friends-list>
       </div>
     </div>
   </div>

@@ -1,11 +1,11 @@
 const restifyErrors = require('restify-errors')
-    , Model = require('./friends.model');
+    , Model = require('./friends.model')
+    , sortFriends = require('./sort-friends');
 
 exports.get = (req, res, next) => {
-    Model.paginate({}, { __v: 0 }).then(result => {
+    Model.find({}, { __v: 0, amigo: 0 }).then(result => {
         res.send({
-            data: result.docs,
-            count: result.total
+            data: result
         });
     }).catch(e => {
         next(new restifyErrors.InternalError(e));
@@ -22,6 +22,16 @@ exports.post = (req, res, next) => {
         res.status(201);
         
         res.send(result);
+    }).catch(e => {
+        next(new restifyErrors.InternalError(e));
+    });
+}
+
+exports.postSort = (req, res, next) => {
+    sortFriends().then(noSecretFriends => {
+        res.send({
+            no_secret_friends: noSecretFriends
+        });
     }).catch(e => {
         next(new restifyErrors.InternalError(e));
     });

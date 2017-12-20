@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "debug": "^3.1.0",
+    "mailgun-js": "^0.13.1",
     "mongoose": "^4.13.7",
-    "mongoose-paginate": "^5.0.3",
     "restify": "^6.3.4",
     "restify-errors": "^5.0.0"
   },
