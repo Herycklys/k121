@@ -13,14 +13,18 @@ export class ApiRestService {
   }
 
   remove(id: String) {
-    return this.http.delete(`${environment.url_api}/friends/${id}`).toPromise();
+    return this.http.delete(`${environment.url_api}/friends/${id}`).toPromise().then(result => result.json());
   }
 
-  sortFriends() {
+  sort() {
     return this.http.post(`${environment.url_api}/friends/sort`, {}).toPromise().then(result => result.json());
   }
 
-  editFriend(id: String, friend: Friend) {
-    return this.http.post(`${environment.url_api}/friends/${ id }`, friend).toPromise().then(result => result.json());
+  edit(id: String, friend: Friend) {
+    return this.http.put(`${environment.url_api}/friends/${ id }`, friend).toPromise().then(result => result.json());
+  }
+
+  create(friend: Friend) {
+    return this.http.post(`${environment.url_api}/friends/`, friend).toPromise().then(result => result.json());
   }
 }

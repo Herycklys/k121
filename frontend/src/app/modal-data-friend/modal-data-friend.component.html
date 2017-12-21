@@ -1,31 +1,72 @@
-<div class="modal fade" id="create-or-update" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" #modal data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          {{ data.title }}
-        </h5>
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
+      <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ data.title }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
           <div class="form-group text-left">
             <label for="nameFriend">Nome</label>
-            <input type="text" class="form-control" id="nameFriend" name="nome" [(ngModel)]="data.nome">
+            <input type="text" class="form-control" id="nameFriend" name="nome" [formControl]="form.controls['nome']">
           </div>
 
           <div class="form-group text-left">
             <label for="emailFriend">Email</label>
-            <input type="text" class="form-control" id="emailFriend" name="email" [(ngModel)]="data.email">
+            <input type="text" class="form-control" id="emailFriend" name="email" [formControl]="form.controls['email']">
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary" (click)="saveData()" data-dismiss="modal">Salvar</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+
+      <!-- <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
+        <div class="form-group">
+          <label>First Name:</label>
+          <input class="form-control" type="text" placeholder="John" [formControl]="form.controls['firstName']">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input class="form-control" type="text" placeholder="Doe" [formControl]="form.controls['lastName']">
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="gender" value="Male" [formControl]="form.controls['gender']">
+            Male
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="gender" value="Female" [formControl]="form.controls['gender']">
+            Female
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Activities</label>
+        </div>
+        <label class="checkbox-inline">
+          <input type="checkbox" value="hiking" name="hiking" [formControl]="form.controls['hiking']"> Hiking
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" value="swimming" name="swimming" [formControl]="form.controls['swimming']"> Swimming
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" value="running" name="running" [formControl]="form.controls['running']"> Running
+        </label>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+      </form> -->
     </div>
   </div>
 </div>

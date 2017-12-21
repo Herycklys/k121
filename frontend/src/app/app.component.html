@@ -6,10 +6,10 @@
     <div class="card-body padd-20px">
       <div class="row">
         <div class="margin-auto">
-          <button class="btn btn-info">
+          <button class="btn btn-info" (click)="makeSort()">
             <b>Sortear os amigos</b>
           </button>
-          <button class="btn btn-success">
+          <button class="btn btn-success" (click)="ModalFriend.modalToggle()">
             <b>Cadastrar novo amigo</b>
           </button>
         </div>
@@ -24,3 +24,5 @@
     </div>
   </div>
 </div>
+
+<app-modal-data-friend [data]="new_friend" (dataSave)="saveNewFriend()"></app-modal-data-friend>

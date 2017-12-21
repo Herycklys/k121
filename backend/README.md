@@ -1,4 +1,4 @@
-##API do sistema de amigo secreto
+# API do sistema de amigo secreto
 
 O primeiro passo é instalar as dependências do projeto com o comando:
 `npm install`
