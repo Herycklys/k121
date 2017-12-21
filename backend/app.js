@@ -3,6 +3,7 @@
 const restify = require('restify')
   , controller = require('./friends.controller')
   , mongoConnection = require('./db.connect')
+  , corsMiddleware = require('restify-cors-middleware')
   , mongoose = require('mongoose');
 
 mongoose.Promise = Promise;
@@ -17,15 +18,13 @@ const server = restify.createServer({
   version: '1.0.0'
 });
 
-server.use((req, res, next) => {
-  res.set({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': req.header('Access-Control-Request-Method'),
-    'Access-Control-Allow-Header': req.header('Access-Control-Request-Headers')
-  });
+const cors = corsMiddleware({
+  origins: ['*'],
+  allowHeaders: ['Content-Type']
+})
 
-  return next();
-});
+server.pre(cors.preflight);
+server.use(cors.actual);
 
 server.use(restify.plugins.bodyParser({ mapParams: true }));
 server.use(restify.plugins.acceptParser(server.acceptable));

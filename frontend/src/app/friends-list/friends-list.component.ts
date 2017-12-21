@@ -3,6 +3,8 @@ import { ApiRestService } from '../api-rest.service';
 import { Friend } from '../friend';
 import { ModalDataFriendComponent } from '../modal-data-friend/modal-data-friend.component';
 
+declare var toastr: any;
+
 @Component({
   selector: 'app-friends-list',
   templateUrl: './friends-list.component.html',
@@ -29,6 +31,8 @@ export class FriendsListComponent implements OnInit {
   loadData(): void {
     this.api.list().then(result => {
       this.friends = result.data;
+    }).catch(() => {
+      toastr.error('Erro ao carregar os dados.');
     });
   }
 
@@ -38,30 +42,47 @@ export class FriendsListComponent implements OnInit {
 
   editFriend(friend: Friend): void {
     this.friend_selected = {
-      title: `Editar o amigo ${ friend.nome }`,
+      title: `Editar o amigo ${friend.nome}`,
       _id: friend._id,
       nome: friend.nome,
       email: friend.email
     };
-    
+
     this.ModalFriend.modalToggle();
   }
 
   saveEditFriend() {
-    console.log(
-      this.friend_selected
-    );
+    this.spinner(true);
+
+    this.api.editFriend(this.friend_selected._id, {
+      _id: this.friend_selected._id,
+      nome: this.friend_selected.nome,
+      email: this.friend_selected.email
+    }).then(() => {
+      toastr.success('Editado com sucesso');
+
+      this.spinner(false);
+    }).catch(() => {
+      toastr.error('Erro ao editar o amigo, por favor tente novamente.');
+
+      this.spinner(false)
+    });
   }
 
   deleteFriend(id: String) {
     this.spinner(true);
 
-    this.api.remove(id).then(() => {
-      this.loadData();
+    this.api.remove(id)
+      .then(() => this.loadData())
+      .then(() => {
+        toastr.success('Apagado com sucesso');
 
-      this.spinner(false);
-    }).catch(e => {
-      this.spinner(false);
-    });
+        this.spinner(false);
+      })
+      .catch(() => {
+        toastr.error('Erro ao apagar o amigo, por favor tente novamente.');
+
+        this.spinner(false)
+      });
   }
 }

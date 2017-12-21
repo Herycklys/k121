@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 
+let that: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  _spinner: Boolean = true;
+  _spinner: Boolean = false;
+
+  constructor() {
+    that = this;
+  }
 
   toggleSpinner(spinner: Boolean) {
-    alert(JSON.stringify({ spinner, _spinner: this._spinner }));
-
-    this._spinner = spinner;
+    that._spinner = spinner;
   }
 
   makeSort() {
