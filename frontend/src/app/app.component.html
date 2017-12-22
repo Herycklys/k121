@@ -2,6 +2,13 @@
   <div class="card">
     <div class="card-header text-center">
       <h2 class="padd-20px margin-auto">Amigo secreto</h2>
+      <span>
+        <b>Regras: </b>
+        <u>
+          <li>Um amigo que já tem um "amigo secreto" não pode ser sorteado novamente</li>
+          <li>É necessário ao menos 2 amigos ( que ainda não tenham amigos secretos ) para que o sorteio possa ser feito</li>
+        </u>
+      </span>
     </div>
     <div class="card-body padd-20px">
       <div class="row">
@@ -9,7 +16,7 @@
           <button class="btn btn-info" (click)="makeSort()">
             <b>Sortear os amigos</b>
           </button>
-          <button class="btn btn-success" (click)="ModalFriend.modalToggle()">
+          <button class="btn btn-success" (click)="ModalFriend.show({ title: 'Novo amigo', nome: '', email: '' })">
             <b>Cadastrar novo amigo</b>
           </button>
         </div>
@@ -25,4 +32,4 @@
   </div>
 </div>
 
-<app-modal-data-friend [data]="new_friend" (dataSave)="saveNewFriend()"></app-modal-data-friend>
+<app-modal-data-friend (dataSave)="saveNewFriend($event)"></app-modal-data-friend>

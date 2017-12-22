@@ -16,15 +16,7 @@ declare var toastr: any;
 export class AppComponent {
   _spinner: Boolean = false;
 
-  new_friend: any = {
-    title: "Novo amigo",
-    _id: "",
-    nome: "",
-    email: ""
-  };
-
-  @ViewChild(ModalDataFriendComponent)
-  private ModalFriend: ModalDataFriendComponent;
+  @ViewChild(ModalDataFriendComponent) public ModalFriend: ModalDataFriendComponent;
 
   @ViewChild(FriendsListComponent) private FriendsList: FriendsListComponent;
 
@@ -36,12 +28,6 @@ export class AppComponent {
     that._spinner = spinner;
   }
 
-  cleanData() {
-    this.new_friend._id = "";
-    this.new_friend.nome = "";
-    this.new_friend.email = "";
-  }
-
   makeSort() {
     this.toggleSpinner(true);
 
@@ -49,38 +35,36 @@ export class AppComponent {
       this.toggleSpinner(false);
       
       if( result.no_secret_friends.length )
-        return toastr.info(`Sorteado com sucesso mas alguns amigos seus ficaram sem amigo secreto, os amigos são <ul><li>${ result.no_secret_friends.join('</li><li>') }</li></ul>`);
+        return toastr.info(`Sorteado com sucesso mas alguns amigos seus ficaram sem amigo secreto, os amigos são <ul><li>${ result.no_secret_friends.map(friend => friend.nome).join('</li><li>') }</li></ul>`);
       else
         return toastr.success('Sorteado com sucesso!');
     }).catch(e => {
-      console.error(e);
+      if( e.status === 400 ) toastr.info('Quantidade insuficiente de amigos');
+      else toastr.error("Erro ao sortear os seus amigos");
 
-      toastr.error("Erro ao sortear os seus amigos");
+      console.error(e);
 
       this.toggleSpinner(false);
     });
   }
 
-  saveNewFriend() {
+  saveNewFriend(dataSend) {
     this.toggleSpinner(true);
 
     this.api
       .create({
-        _id: this.new_friend._id,
-        nome: this.new_friend.nome,
-        email: this.new_friend.email
+        _id: dataSend._id,
+        nome: dataSend.nome,
+        email: dataSend.email
       })
       .then(() => {
         toastr.success("Adicionado com sucesso");
 
         this.toggleSpinner(false);
-
-        this.cleanData();
       })
       .catch(e => {
-        console.error(e);
-
-        toastr.error("Erro ao adicionar o amigo, por favor tente novamente");
+        if( e.status === 422 ) toastr.info('Ops!! Parece que tem um amigo seu com esses dados, tente novamente com outros dados');
+        else toastr.error('Erro ao adicionar o amigo, por favor tente novamente');
 
         this.toggleSpinner(false);
       });

@@ -10,21 +10,23 @@ module.exports = () => {
             friendsWithoutSecretFriend = [],
             bulkOperations = [];
 
-        function getFriendSorted(userFriend, count) {
+        if( restantFriends.length <= 1 ) return Promise.reject({ status: 'NOT_FRIEND' });
+
+        function getFriendSorted(userFriend) {
             let indexFriend;
 
-            if (!restantFriends.length || count >= 3) return null;
+            if (!restantFriends.length || ( restantFriends.length === 1 && restantFriends[0]._id === userFriend._id )) return null;
 
-            indexFriend = Math.floor((Math.random() * (restantFriends.length - 1)) + 0);
+            indexFriend = Math.floor((Math.random() * restantFriends.length) + 0);
 
             if (userFriend._id === restantFriends[indexFriend]._id)
-                return getFriendSorted(userFriend, ++count);
+                return getFriendSorted(userFriend);
 
             return restantFriends.splice(indexFriend, 1)[0];
         }
 
         result.forEach(friend => {
-            let friendSelected = getFriendSorted(friend, 0);
+            let friendSelected = getFriendSorted(friend);
 
             if (friendSelected) {
                 bulkOperations.push({
@@ -35,7 +37,7 @@ module.exports = () => {
                 });
 
                 sendEmail({
-                    address: friendSelected.email,
+                    address: friend.email,
                     subject: 'O seu amigo do "Amigo secreto" é...',
                     html: `
                     <div style="text-align: center;">

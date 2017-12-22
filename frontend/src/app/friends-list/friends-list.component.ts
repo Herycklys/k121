@@ -14,14 +14,11 @@ declare var toastr: any;
 export class FriendsListComponent implements OnInit {
   friends: Array<Friend> = [];
 
-  friend_selected: any = {
-    title: "",
-    _id: String,
-    nome: String,
-    email: String
-  };
+  friend_selected: any;
 
   @Input() spinner: Function;
+
+  data_loading: Boolean = true;
 
   @ViewChild(ModalDataFriendComponent)
   private ModalFriend: ModalDataFriendComponent;
@@ -29,13 +26,19 @@ export class FriendsListComponent implements OnInit {
   constructor(private api: ApiRestService) {}
 
   loadData(): void {
+    this.data_loading = true;
+
     this.api
       .list()
       .then(result => {
         this.friends = result.data;
+
+        this.data_loading = false;
       })
       .catch(() => {
         toastr.error("Erro ao carregar os dados.");
+
+        this.data_loading = false;
       });
   }
 
@@ -45,31 +48,33 @@ export class FriendsListComponent implements OnInit {
 
   editFriend(friend: Friend): void {
     this.friend_selected = {
-      title: `Editar o amigo ${friend.nome}`,
       _id: friend._id,
-      nome: friend.nome,
-      email: friend.email
     };
 
-    this.ModalFriend.modalToggle();
+    this.ModalFriend.show({
+      nome: friend.nome,
+      email: friend.email,
+      title: `Editar o amigo "${friend.nome}"`
+    });
   }
 
-  saveEditFriend() {
+  saveEditFriend(dataSend) {
     this.spinner(true);
 
     this.api
       .edit(this.friend_selected._id, {
         _id: this.friend_selected._id,
-        nome: this.friend_selected.nome,
-        email: this.friend_selected.email
+        nome: dataSend.nome,
+        email: dataSend.email
       })
       .then(() => {
         toastr.success("Editado com sucesso");
 
         this.spinner(false);
       })
-      .catch(() => {
-        toastr.error("Erro ao editar o amigo, por favor tente novamente.");
+      .catch(e => {
+        if( e.status === 422 ) toastr.info('Ops!! Parece que tem um amigo seu com esses dados, tente novamente com outros dados');
+        else toastr.error("Erro ao editar o amigo, por favor tente novamente.");
 
         this.spinner(false);
       });
