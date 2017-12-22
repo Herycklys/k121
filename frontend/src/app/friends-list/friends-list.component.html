@@ -3,26 +3,36 @@
     <tr>
       <th scope="col">Nome</th>
       <th scope="col">Email</th>
+      <th scope="col">Já tem amigo secreto ?</th>
       <th scope="col">Ações</th>
     </tr>
   </thead>
   <tbody>
-    <ng-template [ngIf]="friends.length">
-      <tr *ngFor="let friend of friends">
-        <td>{{ friend.nome }}</td>
-        <td>{{ friend.email }}</td>
-        <td>
-          <button class="btn btn-info" (click)="editFriend(friend)">Editar</button>
-          <button class="btn btn-danger" (click)="deleteFriend(friend._id)">Excluir</button>
-        </td>
-      </tr>
+    <ng-template [ngIf]="!data_loading">
+      <ng-template [ngIf]="friends.length">
+        <tr *ngFor="let friend of friends">
+          <td>{{ friend.nome }}</td>
+          <td>{{ friend.email }}</td>
+          <td>{{ friend.has_secret ? 'Sim' : 'Não' }}</td>
+          <td>
+            <button class="btn btn-info" (click)="editFriend(friend)">Editar</button>
+            <button class="btn btn-danger" (click)="deleteFriend(friend._id)">Excluir</button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template [ngIf]="!friends.length">
+        <tr>
+          <td colspan="4">Nenhum amigo</td>
+        </tr>
+      </ng-template>
     </ng-template>
-    <ng-template [ngIf]="!friends.length">
+
+    <ng-template [ngIf]="data_loading">
       <tr>
-        <td colspan="3">Nenhum dado</td>
+        <td colspan="4">Carregando...</td>
       </tr>
     </ng-template>
   </tbody>
 </table>
 
-<app-modal-data-friend [data]="friend_selected" (dataSave)="saveEditFriend()"></app-modal-data-friend>
+<app-modal-data-friend (dataSave)="saveEditFriend($event)"></app-modal-data-friend>

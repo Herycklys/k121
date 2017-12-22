@@ -13,60 +13,25 @@
         <div class="modal-body">
           <div class="form-group text-left">
             <label for="nameFriend">Nome</label>
-            <input type="text" class="form-control" id="nameFriend" name="nome" [formControl]="form.controls['nome']">
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': !form.controls.nome.valid }" id="nameFriend" name="nome" [formControl]="form.controls.nome">
+            <div class="invalid-feedback">
+              Nome é obrigatório
+            </div>
           </div>
 
           <div class="form-group text-left">
             <label for="emailFriend">Email</label>
-            <input type="text" class="form-control" id="emailFriend" name="email" [formControl]="form.controls['email']">
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': !form.controls.email.valid }" id="emailFriend" name="email" [formControl]="form.controls.email">
+            <div class="invalid-feedback">
+              Email inválido
+            </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
         </div>
       </form>
-
-      <!-- <form [formGroup]="form" (ngSubmit)="submitForm(form.value)">
-        <div class="form-group">
-          <label>First Name:</label>
-          <input class="form-control" type="text" placeholder="John" [formControl]="form.controls['firstName']">
-        </div>
-        <div class="form-group">
-          <label>Last Name</label>
-          <input class="form-control" type="text" placeholder="Doe" [formControl]="form.controls['lastName']">
-        </div>
-        <div class="form-group">
-          <label>Gender</label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="gender" value="Male" [formControl]="form.controls['gender']">
-            Male
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="gender" value="Female" [formControl]="form.controls['gender']">
-            Female
-          </label>
-        </div>
-        <div class="form-group">
-          <label>Activities</label>
-        </div>
-        <label class="checkbox-inline">
-          <input type="checkbox" value="hiking" name="hiking" [formControl]="form.controls['hiking']"> Hiking
-        </label>
-        <label class="checkbox-inline">
-          <input type="checkbox" value="swimming" name="swimming" [formControl]="form.controls['swimming']"> Swimming
-        </label>
-        <label class="checkbox-inline">
-          <input type="checkbox" value="running" name="running" [formControl]="form.controls['running']"> Running
-        </label>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">Submit</button>
-        </div>
-      </form> -->
     </div>
   </div>
 </div>

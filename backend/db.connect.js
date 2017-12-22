@@ -4,14 +4,19 @@ const mongoose = require('mongoose')
     , debug = require('debug')('server:database');
 
 module.exports = uri => {
-    return mongoose.connect(process.env.MONGOLAB_URI_K121, {
-        useMongoClient: true,
-        auth: {
-            user: process.env.MONGOLAB_AUTH_USER,
-            password: process.env.MONGOLAB_AUTH_PASSWORD
-        }
-    }).then(() => {
-        debug(`Connected on ${ process.env.MONGOLAB_URI_K121 }`);
+    let dbOptions = {
+        useMongoClient: true
+    }
+
+    if( process.env.MONGO_AUTH_USER && process.env.MONGO_AUTH_PASSWORD ) {
+        dbOptions.auth = {
+            user: process.env.MONGO_AUTH_USER,
+            password: process.env.MONGO_AUTH_PASSWORD
+        };
+    }
+
+    return mongoose.connect(process.env.MONGO_URI_K121, dbOptions).then(() => {
+        debug(`Connected on ${ process.env.MONGO_URI_K121 }`);
     }).catch(e => {
         debug(e.stack);
 
