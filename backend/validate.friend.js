@@ -11,10 +11,6 @@ validator.validators.friendExists = (value, options) => {
     }
 
     return Model.findOne(query).then(result => {
-        console.log(
-            '===>', query, result
-        );
-
         if( result ) return 'Friend just exists';
     })
 }
